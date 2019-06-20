@@ -23,3 +23,5 @@ class Matrix():
     def inverse(self):
         return self.__invert__()
 
+    def tolist(self):
+        return self.matrix.tolist()
