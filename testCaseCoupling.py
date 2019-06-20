@@ -42,11 +42,11 @@ structuralDomain2.addElement(Spring, 0, 1, 585)
 #----------------------------------------------------------#
 structuralDomain.addConstraint(0, 0)
 
-structuralDomain.addLoads(1, 0)
-structuralDomain.addLoads(2, 0)
-structuralDomain.addLoads(3, 0)
+# structuralDomain.addLoads(1, 0)
+# structuralDomain.addLoads(2, 0)
+# structuralDomain.addLoads(3, 0)
 
-structuralDomain2.addLoads(0, 0)
+# structuralDomain2.addLoads(0, 0)
 structuralDomain2.addLoads(1, 1)
 
 ###########      Assemble Stiffness matrix       ###########
@@ -64,7 +64,7 @@ result = (coupledDomain.solve()).tolist()
 del result[-1]
 del result[3]
 
-print(f'Results from the coupledFEM code: \t\t\t\t{np.around(result, decimals=6).transpose()}')
+print(f'Results from the coupledFEM code: \t\t\t{np.around(result, decimals=6).transpose()}')
 print(f'Expected result from Saeed Mavoni (Ex: 1.5): \t{[0.001026, 0.002210, 0.003608, 0.005317]}')
 
 # Plot(structuralDomain)

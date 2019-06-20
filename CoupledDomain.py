@@ -115,14 +115,15 @@ class CoupledDomain:
             constrainedListKeys = list(domain.constraintList.keys())
             constrainedListVals = list(domain.constraintList.values())
 
-            for i, val in enumerate(domain.loadList.values()):
-                subLoadVector[i + startPos] = val
+            for i in unConstrainedList:
+                if domain.loadList.get(i):
+                    subLoadVector[i + startPos] = domain.loadList[i]
 
             for i in range(len(domain.constraintList)):
                 for j in range(len(unConstrainedList)):
                     subLoadVector[j + startPos] -= \
                         constrainedListVals[i] * self.stiffnessMatrix[unConstrainedList[j], constrainedListKeys[i]]
-            
+
             startPos += len(unConstrainedList)
 
         for i in range(len(self.couplingListRHS)):
