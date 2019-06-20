@@ -16,10 +16,9 @@ structuralDomain = Domain( dim=oneD, dofs=1 )
 ###########                Nodes                 ###########
 #----------------------------------------------------------#
 ''' Structure '''
-structuralDomain.addNode(0, 0)
-structuralDomain.addNode(5, 0)
-structuralDomain.addNode(2.5, 4)
-# structuralDomain.addNode(2.5, 2.5)
+structuralDomain.addNode(0)
+structuralDomain.addNode(5)
+structuralDomain.addNode(10)
 
 ''' Fluid '''
 # fluidDomain.addNode(0, 0, 0)
@@ -30,9 +29,9 @@ structuralDomain.addNode(2.5, 4)
 addElements(Element Type, Node1, Node2, Arguments of the element)
 '''
 structuralDomain.addElement(Spring, 0, 1, 10)
-structuralDomain.addElement(Spring, 1, 2, 20)
-structuralDomain.addElement(Spring, 0, 2, 30)
-# structuralDomain.addElement(NodeElement, 3, 3)
+# structuralDomain.addElement(Spring, 1, 2, 20)
+# structuralDomain.addElement(Spring, 0, 2, 30)
+structuralDomain.addElement(NodeElement, 2, 2)
 
 ###########      Assemble Stiffness matrix       ###########
 #----------------------------------------------------------#
@@ -46,10 +45,11 @@ structuralDomain.addLoads(2, 10)
 
 ###########           Coupled Domain            ###########
 #----------------------------------------------------------#
-coupledDomain = CoupledDomain(structuralDomain, structuralDomain)
-print(coupledDomain.stiffnessMatrix)
+coupledDomain = CoupledDomain(structuralDomain)
+coupledDomain.addCouplingCondition({1:1, 2:-1}, 0)
+print(coupledDomain.solve())
 
-Plot(structuralDomain)
+# Plot(structuralDomain)
 
 ###########           Post Processing            ###########
 #----------------------------------------------------------#
