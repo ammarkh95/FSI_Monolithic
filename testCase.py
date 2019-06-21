@@ -11,7 +11,7 @@ import numpy as np
 #---------------------------------------------------------#
 ''' Structure '''
 # Domain(transformationFunction, dofs per node)
-structuralDomain = Domain( dim=oneD, dofs=1 )
+structuralDomain = Domain( dim='1D', dofs=1 )
 ''' Fuild '''
 # fluidDomain = Domain()
 
@@ -27,12 +27,12 @@ structuralDomain.addNode(4)
 ###########               Elements               ###########
 #----------------------------------------------------------#
 '''
-addElements(Element Type, Node1, Node2, Arguments of the element)
+addElements(Element Type, (Nodes Tuple), Arguments of the element)
 '''
-structuralDomain.addElement(Spring, 0, 1, 975)
-structuralDomain.addElement(Spring, 1, 2, 845)
-structuralDomain.addElement(Spring, 2, 3, 715)
-structuralDomain.addElement(Spring, 3, 4, 585)
+structuralDomain.addElement(Spring, ( 0, 1 ), 975)
+structuralDomain.addElement(Spring, ( 1, 2 ), 845)
+structuralDomain.addElement(Spring, ( 2, 3 ), 715)
+structuralDomain.addElement(Spring, ( 3, 4 ), 585)
 
 ###########      Assemble Stiffness matrix       ###########
 #----------------------------------------------------------#

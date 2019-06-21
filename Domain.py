@@ -22,10 +22,11 @@ class Domain():
     def addNode(self, x, y=0, mass=0):
         id = len(self.nodes)
         self.nodes.append(Node(id, x, y, mass))
-
-    def addElement(self, ElementType, Node1, Node2, *args):
-        self.elements.append(ElementType(self.nodes[Node1], self.nodes[Node2], *args))
     
+    def addElement(self, ElementType, nodesIDTuple, *args):
+        nodesList = [self.nodes[i] for i in nodesIDTuple]
+        self.elements.append(ElementType(nodesList, *args))
+
     def assembleStiffnessMatrix(self):
         self.stiffnessMatrix = Matrix(self.dofs * len(self.nodes))
 

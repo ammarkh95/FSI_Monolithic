@@ -11,8 +11,8 @@ import numpy as np
 #---------------------------------------------------------#
 ''' Structure '''
 # Domain(transformationFunction, dofs per node)
-structuralDomain = Domain( dim=oneD, dofs=1 )
-structuralDomain2 = Domain( dim=oneD, dofs=1 )
+structuralDomain = Domain( dim='1D', dofs=1 )
+structuralDomain2 = Domain( dim='1D', dofs=1 )
 ''' Fuild '''
 # fluidDomain = Domain()
 
@@ -32,11 +32,11 @@ structuralDomain2.addNode(5)
 '''
 addElements(Element Type, Node1, Node2, Arguments of the element)
 '''
-structuralDomain.addElement(Spring, 0, 1, 975)
-structuralDomain.addElement(Spring, 1, 2, 845)
-structuralDomain.addElement(Spring, 2, 3, 715)
+structuralDomain.addElement(Spring, ( 0, 1 ), 975)
+structuralDomain.addElement(Spring, ( 1, 2 ), 845)
+structuralDomain.addElement(Spring, ( 2, 3 ), 715)
 
-structuralDomain2.addElement(Spring, 0, 1, 585)
+structuralDomain2.addElement(Spring, ( 0, 1 ), 585)
 
 ###########            Add Constraints           ###########
 #----------------------------------------------------------#

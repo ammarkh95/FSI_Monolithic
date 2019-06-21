@@ -1,7 +1,7 @@
 def oneD(element, stiffnessMatrix):
 
-    i = element.getNode1().id
-    j = element.getNode2().id
+    i = element.getNode(0).id
+    j = element.getNode(1).id
     elementStiffness = element.getStiffness()
 
     stiffnessMatrix[i][i] += elementStiffness

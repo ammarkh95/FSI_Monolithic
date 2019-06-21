@@ -1,9 +1,13 @@
 from .Element import Element
+from .transforms.oneD import oneD
+
 
 class Spring(Element):
 
-    def __init__(self, Node1, Node2, stiffness):
-        super().__init__(Node1, Node2)
+    transformsMap = {'1D': oneD}
+
+    def __init__(self, nodesList, stiffness):
+        super().__init__(nodesList)
         self.stiffness = stiffness
 
     def getStiffness(self):
@@ -20,4 +24,4 @@ class Spring(Element):
         dim             --->    dimension of the problem
         globalMatrix    --->    stiffness matrix
         '''
-        dim(self, globalMatrix)
+        Spring.transformsMap[dim](self, globalMatrix)

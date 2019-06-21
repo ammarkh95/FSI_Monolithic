@@ -6,7 +6,7 @@ class CoupledDomain:
     def __init__(self, *domains):
         self.domainList = list(domains)
 
-        self.size = sum([len(i.nodes) for i in self.domainList])
+        self.size = sum([len(i.nodes) * i.dofs for i in self.domainList])
         self.totalConstraints = sum([len(i.constraintList) for i in self.domainList])
 
         self.stiffnessMatrix = Matrix(0)
@@ -23,7 +23,7 @@ class CoupledDomain:
         ''' Stiffness Matrix contributions from Domains '''
         for domain in self.domainList:
 
-            domainSize = len(domain.nodes)
+            domainSize = len(domain.nodes) * domain.dofs
 
             for i in range(domainSize):
                 for j in range(domainSize):
@@ -45,7 +45,7 @@ class CoupledDomain:
 
         for domain in self.domainList:
 
-            domainSize = len(domain.nodes)
+            domainSize = len(domain.nodes) * domain.dofs
 
             for key, val in domain.constraintList.items():
                 self.displacementVector[key + startPos] = val
@@ -58,7 +58,7 @@ class CoupledDomain:
 
         for domain in self.domainList:
 
-            domainSize = len(domain.nodes)
+            domainSize = len(domain.nodes) * domain.dofs
 
             for key, val in domain.loadList.items():
                 self.loadVector[key + startPos] = val
@@ -90,7 +90,7 @@ class CoupledDomain:
 
         for domain in self.domainList:
 
-            unConstrainedList = [i for i in range(0, len(domain.nodes)) if i not in domain.constraintList]
+            unConstrainedList = [i for i in range(len(domain.nodes) * domain.dofs) if i not in domain.constraintList]
 
             for i in range(len(unConstrainedList)):
                 for j in range(len(unConstrainedList)):
@@ -103,7 +103,7 @@ class CoupledDomain:
                         subMatrix[j + startPos][startPosConstraints + i] = coupling[unConstrainedList[j] + startPosGlob]
 
             startPos += len(unConstrainedList)
-            startPosGlob += len(domain.nodes)
+            startPosGlob += len(domain.nodes) * domain.dofs
 
         ''' General RHS computation '''
         subLoadVector = Vector(self.size - self.totalConstraints)
@@ -111,13 +111,13 @@ class CoupledDomain:
 
         for domain in self.domainList:
 
-            unConstrainedList = [i for i in range(0, len(domain.nodes)) if i not in domain.constraintList]
+            unConstrainedList = [i for i in range(len(domain.nodes) * domain.dofs) if i not in domain.constraintList]
             constrainedListKeys = list(domain.constraintList.keys())
             constrainedListVals = list(domain.constraintList.values())
 
-            for i in unConstrainedList:
-                if domain.loadList.get(i):
-                    subLoadVector[i + startPos] = domain.loadList[i]
+            for i, j in enumerate(unConstrainedList):
+                if domain.loadList.get(j):
+                    subLoadVector[i + startPos] = domain.loadList[j]
 
             for i in range(len(domain.constraintList)):
                 for j in range(len(unConstrainedList)):
@@ -128,6 +128,9 @@ class CoupledDomain:
 
         for i in range(len(self.couplingListRHS)):
             subLoadVector[startPosConstraints + i] = self.couplingListRHS[i]
+
+        # print(subMatrix)
+        # print(subLoadVector)
 
         return ~subMatrix * subLoadVector
 
