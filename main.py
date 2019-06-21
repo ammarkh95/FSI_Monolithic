@@ -9,7 +9,7 @@ from Plot import Plot
 #---------------------------------------------------------#
 ''' Structure '''
 # Domain(transformationFunction, dofs per node)
-structuralDomain = Domain( dim=oneD, dofs=1 )
+structuralDomain = Domain( dim='1D', dofs=1 )
 ''' Fuild '''
 # fluidDomain = Domain()
 
@@ -28,10 +28,10 @@ structuralDomain.addNode(10)
 '''
 addElements(Element Type, Node1, Node2, Arguments of the element)
 '''
-structuralDomain.addElement(Spring, 0, 1, 10)
+structuralDomain.addElement(Spring, ( 0, 1 ), 10)
 # structuralDomain.addElement(Spring, 1, 2, 20)
 # structuralDomain.addElement(Spring, 0, 2, 30)
-structuralDomain.addElement(NodeElement, 2, 2)
+structuralDomain.addElement(NodeElement, (2,))
 
 ###########      Assemble Stiffness matrix       ###########
 #----------------------------------------------------------#

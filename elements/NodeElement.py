@@ -4,7 +4,7 @@ from .transforms.zeroD import zeroD
 
 class NodeElement(Element):
 
-    def __init__(self, node, node1):
+    def __init__(self, node):
         self.node = node
 
     def getNode(self):
