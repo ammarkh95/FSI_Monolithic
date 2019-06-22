@@ -1,10 +1,11 @@
 from .Element import Element
 from .transforms.oneD import oneD
+from .transforms.twoD import twoD
 
 
 class Spring(Element):
 
-    transformsMap = {'1D': oneD}
+    transformsMap = {'1D': oneD, '2D': twoD}
 
     def __init__(self, nodesList, stiffness):
         super().__init__(nodesList)
