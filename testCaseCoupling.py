@@ -11,8 +11,8 @@ import numpy as np
 #---------------------------------------------------------#
 ''' Structure '''
 # Domain(transformationFunction, dofs per node)
-structuralDomain = Domain( dim='1D', dofs=1 )
-structuralDomain2 = Domain( dim='1D', dofs=1 )
+structuralDomain = Domain( dim='1D')
+structuralDomain2 = Domain( dim='1D')
 ''' Fuild '''
 # fluidDomain = Domain()
 

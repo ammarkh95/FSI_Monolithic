@@ -3,16 +3,17 @@ from Matrix import Matrix
 
 class Domain():
 
-    def __init__(self, dim, dofs):
-        ''' Dim     --- >   corresponds to diamension of the problem,
-                            1D - 2D - 3D. Dim is NOT a number, its a
-                            transformation function which assembles
-                            the stiffness matrix
+    dofsMap = { '1D':1, '2D':2, '3D':3 }
 
-            dofs    --- >   Degrees of freedom per node
+    def __init__(self, dim):
+        ''' Dim     --- >   corresponds to diamension of the problem,
+                            1D - 2D - 3D. This key word is used to
+                            determine dofs from dofsMap and passed on
+                            to the elements hint the correct
+                            stiffness matrix transformation
         '''
         self.dim = dim
-        self.dofs = dofs
+        self.dofs = Domain.dofsMap[dim]
         self.nodes = []
         self.elements = []
         self.stiffnessMatrix = Matrix(0)
