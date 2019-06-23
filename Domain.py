@@ -1,16 +1,17 @@
 from Node import Node
 from Matrix import Matrix
 
+
 class Domain():
 
-    dofsMap = { '1D':1, '2D':2, '3D':3 }
+    dofsMap = {'1D': 1, '2D': 2, '3D': 3}
 
     def __init__(self, dim):
         ''' Dim     --- >   corresponds to diamension of the problem,
                             1D - 2D - 3D. This key word is used to
                             determine dofs from dofsMap and passed on
-                            to the elements hint the correct
-                            stiffness matrix transformation
+                            to the elements as a hint to correctly determine
+                            the stiffness matrix transformation
         '''
         self.dim = dim
         self.dofs = Domain.dofsMap[dim]
@@ -23,7 +24,7 @@ class Domain():
     def addNode(self, x, y=0, mass=0):
         id = len(self.nodes)
         self.nodes.append(Node(id, x, y, mass))
-    
+
     def addElement(self, ElementType, nodesIDTuple, *args):
         nodesList = [self.nodes[i] for i in nodesIDTuple]
         self.elements.append(ElementType(nodesList, *args))

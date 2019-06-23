@@ -1,6 +1,8 @@
 from Matrix import Matrix
 from Vector import Vector
 
+import numpy as np
+
 class CoupledDomain:
 
     def __init__(self, *domains):
@@ -128,6 +130,8 @@ class CoupledDomain:
 
         for i in range(len(self.couplingListRHS)):
             subLoadVector[startPosConstraints + i] = self.couplingListRHS[i]
+
+        # np.savetxt('test.txt', subMatrix.matrix, delimiter=', ', fmt='%+1.2f')
 
         # print(subMatrix)
         # print(subLoadVector)
