@@ -1,9 +1,10 @@
 from Domain import Domain
-from CoupledDomain import CoupledDomain
+from CoupledDomain2 import CoupledDomain
 from elements.transforms.oneD import oneD
 from elements.Spring import Spring
 from elements.NodeElement import NodeElement
 from Plot import Plot
+from solvers.Newmark import Newmark
 
 ###########               Domains               ###########
 #---------------------------------------------------------#
@@ -16,9 +17,9 @@ structuralDomain = Domain(dim='1D')
 ###########                Nodes                 ###########
 #----------------------------------------------------------#
 ''' Structure '''
-structuralDomain.addNode(0)
-structuralDomain.addNode(5)
-structuralDomain.addNode(10)
+structuralDomain.addNode(0, 0)
+structuralDomain.addNode(5, 0, 1)
+structuralDomain.addNode(10, 0, 1)
 
 ''' Fluid '''
 # fluidDomain.addNode(0, 0, 0)
@@ -47,8 +48,10 @@ structuralDomain.addLoads(2, 10)
 #----------------------------------------------------------#
 coupledDomain = CoupledDomain(structuralDomain)
 coupledDomain.addCouplingCondition({1: 1, 2: -1}, 0)
-print(coupledDomain.solve())
 
+coupledDomain.Solve(Newmark, 10, .1, 1/4, 1/2)
+ 
+print('Hello')
 # Plot(structuralDomain)
 
 ###########           Post Processing            ###########

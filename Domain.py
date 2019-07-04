@@ -21,7 +21,7 @@ class Domain():
         self.constraintList = {}
         self.loadList = {}
 
-    def addNode(self, x, y=0, mass=0):
+    def addNode(self, x, y=0, mass=None):
         id = len(self.nodes)
         self.nodes.append(Node(id, x, y, mass))
 

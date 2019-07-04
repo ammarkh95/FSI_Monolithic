@@ -1,3 +1,7 @@
+import timeit
+
+mysetup  = '''
+
 from Domain import Domain
 from CoupledDomain2 import CoupledDomain
 from elements.transforms.oneD import oneD
@@ -7,34 +11,32 @@ from Plot import Plot
 
 import numpy as np
 
+'''
+
+mycode = '''
+
 ###########               Domains               ###########
 #---------------------------------------------------------#
-''' Structure '''
+# Structure #
 # Domain(transformationFunction, dofs per node)
 structuralDomain = Domain( dim='2D')
-''' Fuild '''
+# Fuild #
 # fluidDomain = Domain()
 
 ###########                Nodes                 ###########
 #----------------------------------------------------------#
-''' Structure '''
+# Structure #
 structuralDomain.addNode(x=0, y=0)      # Node 0
 structuralDomain.addNode(x=3, y=0)      # Node 1
-structuralDomain.addNode(x=0, y=3)      # Node 2
-structuralDomain.addNode(x=3, y=3)      # Node 3
-structuralDomain.addNode(x=6, y=3)      # Node 4
+structuralDomain.addNode(x=3, y=3)      # Node 2
 
 ###########               Elements               ###########
 #----------------------------------------------------------#
-'''
-addElements(Element Type, (Nodes Tuple), Arguments of the element)
-'''
-structuralDomain.addElement(Spring, ( 0, 1 ), 4.22 * 1e5)
-structuralDomain.addElement(Spring, ( 1, 2 ), 2.98 * 1e5)
-structuralDomain.addElement(Spring, ( 2, 3 ), 4.22 * 1e5)
-structuralDomain.addElement(Spring, ( 1, 3 ), 4.22 * 1e5)
-structuralDomain.addElement(Spring, ( 1, 4 ), 2.98 * 1e5)
-structuralDomain.addElement(Spring, ( 3, 4 ), 4.22 * 1e5)
+# addElements(Element Type, (Nodes Tuple), Arguments of the element)
+
+structuralDomain.addElement(Spring, ( 0, 1 ), 10)
+structuralDomain.addElement(Spring, ( 1, 2 ), 5)
+structuralDomain.addElement(Spring, ( 0, 2 ), 20)
 
 ###########      Assemble Stiffness matrix       ###########
 #----------------------------------------------------------#
@@ -42,27 +44,29 @@ structuralDomain.assembleStiffnessMatrix()
 
 ###########            Add Constraints           ###########
 #----------------------------------------------------------#
-'''
-addConstraints(Node, Value of displacement at node)
-'''
-structuralDomain.addConstraint(0, 0)
-structuralDomain.addConstraint(1, 0)
-structuralDomain.addConstraint(4, 0)
-structuralDomain.addConstraint(5, 0)
+# addConstraints(Node, Value of displacement at node)
 
-structuralDomain.addLoads(7, -500)
-structuralDomain.addLoads(9, -500)
+structuralDomain.addConstraint(0, 0)
+structuralDomain.addConstraint(1, -.5)
+structuralDomain.addConstraint(3, .4)
+
+structuralDomain.addLoads(4, 2)
+structuralDomain.addLoads(5, 1)
 
 ###########           Coupled Domain            ###########
 #----------------------------------------------------------#
 coupledDomain = CoupledDomain(structuralDomain)
 result = (coupledDomain.solve()).tolist()
+result = result[0:6]
 
-print(f'Results from the FEM code: \t\t\t\t{np.around(result, decimals=6).transpose()}')
-print(f'Expected result from Saeed Moaveni (Ex: 3.1): \t{[-0.00355, -0.01026, 0.00118, -0.0114, 0.0024, -0.0195]}')
+loads = coupledDomain.loadVector[0:6]
 
 # Plot(structuralDomain)
 
 ###########           Post Processing            ###########
 #----------------------------------------------------------#
 # Plot(structuralDomain)
+
+'''
+
+print(timeit.timeit(setup = mysetup, stmt = mycode, number = 10000))
