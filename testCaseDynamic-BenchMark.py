@@ -43,6 +43,7 @@ structuralDomain.addLoads(1, 17.62)
 ###########           Coupled Domain            ###########
 #----------------------------------------------------------#
 coupledDomain = CoupledDomain(structuralDomain)
+coupledDomain.addPhysics(gravity=-9.81)
 # coupledDomain.addCouplingCondition({1: 1, 2: -1}, 0)
 
 coupledDomain.Solve(Newmark, .5619851785, .001, 1/4, 1/2)

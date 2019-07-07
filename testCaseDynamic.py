@@ -46,6 +46,7 @@ structuralDomain.addLoads(2, 10)
 ###########           Coupled Domain            ###########
 #----------------------------------------------------------#
 coupledDomain = CoupledDomain(structuralDomain)
+coupledDomain.addPhysics(gravity = 0)
 
 coupledDomain.Solve(Newmark, 10, 0.01, 1/4, 1/2)
 

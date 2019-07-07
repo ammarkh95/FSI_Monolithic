@@ -12,6 +12,8 @@ class CoupledDomain:
         self.dofs = self.size
         self.totalConstraints = sum([len(i.constraintList) for i in self.domainList])
 
+        self.physics = {'gravity':0}
+
         self.stiffnessMatrix = Matrix(0)
         self.displacementVector = Vector(0)
         self.loadVector = Vector(0)
@@ -63,12 +65,13 @@ class CoupledDomain:
             self.loadVector[startPos] = couplingRHS
             startPos += 1
 
-        # startPos = 0
+        startPos = 0
 
-        # for domain in self.domainList:
-        #      for i in domain.nodes:
-        #          if i.mass is not None:
-        #              self.loadVector[startPos] = i.mass * -9.81
+        for domain in self.domainList:
+             for i in domain.nodes:
+                if i.mass is not None:
+                    self.loadVector[startPos] += i.mass * self.physics['gravity']
+                startPos += 1
 
     def __assembleConstraints__(self):
         startPos = 0
@@ -92,7 +95,7 @@ class CoupledDomain:
         # constraintsStartPos =  self.size - len(self.couplingList)
 
         '''
-        # Assign values to load vector
+        # Assign values to load vector (Reaction forces)
         for i in range(self.totalConstraints):
             # Index corresponds to the DOF id
             # Put loads from lagrange to corresponding DOF
@@ -115,3 +118,7 @@ class CoupledDomain:
         self.solver = Solver(self, *args)
 
         self.solver.solve()
+
+    def addPhysics(self, **kwargs):
+        for key, value in kwargs.items():
+            self.physics[key] = value
