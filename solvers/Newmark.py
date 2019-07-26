@@ -26,6 +26,7 @@ class Newmark():
         self.initialLoadVector = Vector(self.size)
 
         self.history = [[], []]
+        self.time = []
 
         # Newmark coefficients
         self.a0 = 1 / self.beta / (self.dt ** 2)
@@ -151,5 +152,7 @@ class Newmark():
 
             self.history[0].append(self.coupledDomain.displacementVector[1])
             self.history[1].append(self.coupledDomain.displacementVector[2])
+
+            self.time.append(time)
 
             time += self.dt

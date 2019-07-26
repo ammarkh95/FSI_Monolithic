@@ -27,7 +27,7 @@ structuralDomain.addNode(15, 0)
 ###########               Elements               ###########
 #----------------------------------------------------------#
 '''
-addElements(Element Type, Node1, Node2, Arguments of the element)
+addElement(Element Type, NodeTuple, Arguments of the element)
 '''
 structuralDomain.addElement(Spring, (0, 1), 4)
 structuralDomain.addElement(Spring, (1, 2), 2)
@@ -46,12 +46,26 @@ structuralDomain.addLoads(2, 10)
 ###########           Coupled Domain            ###########
 #----------------------------------------------------------#
 coupledDomain = CoupledDomain(structuralDomain)
-coupledDomain.addPhysics(gravity = 0)
+coupledDomain.addPhysics(gravity=0)
 
 coupledDomain.Solve(Newmark, 10, 0.01, 1/4, 1/2)
 
-plt.plot(coupledDomain.solver.history[0])
-plt.plot(coupledDomain.solver.history[1])
+###########           Post Processing            ###########
+#----------------------------------------------------------#
+# Settings
+plt.grid(color='#7f7f7f', linestyle='-', linewidth = '.1')
+
+plt.plot(coupledDomain.solver.time, coupledDomain.solver.history[0], label='Mass 1')
+plt.plot(coupledDomain.solver.time, coupledDomain.solver.history[1], label='Mass 2')
+plt.legend(loc='upper right', fontsize=14)
+
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+
+plt.title('Displacement over time', fontsize=24)
+plt.xlabel('Time (sec)', fontsize=18)
+plt.ylabel('Displacement (m)', fontsize=18)
+
 plt.show()
 # Plot(structuralDomain)
 

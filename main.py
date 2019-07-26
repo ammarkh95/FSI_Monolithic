@@ -6,6 +6,8 @@ from elements.NodeElement import NodeElement
 from Plot import Plot
 from solvers.Newmark import Newmark
 
+import matplotlib.pyplot as plt
+
 ###########               Domains               ###########
 #---------------------------------------------------------#
 ''' Structure '''
@@ -17,22 +19,17 @@ structuralDomain = Domain(dim='1D')
 ###########                Nodes                 ###########
 #----------------------------------------------------------#
 ''' Structure '''
-structuralDomain.addNode(0, 0)
-structuralDomain.addNode(5, 0, 1)
-structuralDomain.addNode(10, 0, 1)
-
-''' Fluid '''
-# fluidDomain.addNode(0, 0, 0)
+structuralDomain.addNode(x = 0, y = 0)
+structuralDomain.addNode(x = 5, y = 0, mass = 1)
+structuralDomain.addNode(x = 10, y = 0, mass = 1)
 
 ###########               Elements               ###########
 #----------------------------------------------------------#
 '''
-addElements(Element Type, Node1, Node2, Arguments of the element)
+addElements(Element Type, (Node Tuple), Arguments of the element)
 '''
 structuralDomain.addElement(Spring, (0, 1), 10)
-# structuralDomain.addElement(Spring, 1, 2, 20)
-# structuralDomain.addElement(Spring, 0, 2, 30)
-structuralDomain.addElement(NodeElement, (2,))
+structuralDomain.addElement(NodeElement, (2,))      # Dummy mass element
 
 ###########      Assemble Stiffness matrix       ###########
 #----------------------------------------------------------#
@@ -50,8 +47,12 @@ coupledDomain = CoupledDomain(structuralDomain)
 coupledDomain.addCouplingCondition({1: 1, 2: -1}, 0)
 
 coupledDomain.Solve(Newmark, 10, .1, 1/4, 1/2)
- 
-print('Hello')
+
+plt.plot(coupledDomain.solver.history[0])
+plt.plot(coupledDomain.solver.history[1])
+
+plt.show()
+
 # Plot(structuralDomain)
 
 ###########           Post Processing            ###########

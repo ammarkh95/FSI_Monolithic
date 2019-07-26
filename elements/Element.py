@@ -13,7 +13,6 @@ class Element(ABC):
     def isPlotable(self):
         return True
 
-    @abstractmethod
     def getStiffness(self):
         pass
 

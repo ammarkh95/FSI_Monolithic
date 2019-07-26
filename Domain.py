@@ -20,6 +20,7 @@ class Domain():
         self.stiffnessMatrix = Matrix(0)
         self.constraintList = {}
         self.loadList = {}
+        self.loadFunctorList = {}
 
     def addNode(self, x, y=0, mass=None):
         id = len(self.nodes)
@@ -41,4 +42,5 @@ class Domain():
         self.constraintList[node] = val
 
     def addLoads(self, node, val):
-        self.loadList[node] = val
+        self.loadFunctorList[node] = val
+        self.loadList[node] = val(0)
