@@ -42,5 +42,9 @@ class Domain():
         self.constraintList[node] = val
 
     def addLoads(self, node, val):
-        self.loadFunctorList[node] = val
-        self.loadList[node] = val(0)
+        # Check if val is a function handle
+        if callable(val):
+            self.loadFunctorList[node] = val
+            self.loadList[node] = val(0)
+        else:
+            self.loadList[node] = val

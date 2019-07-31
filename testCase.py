@@ -53,7 +53,7 @@ coupledDomain = CoupledDomain(structuralDomain)
 result = (coupledDomain.solve()).tolist()
 
 print(f'Results from the FEM code: \t\t\t\t{np.around(result, decimals=6).transpose()}')
-print(f'Expected result from Saeed Mavoni (Ex: 1.5): \t{[0.001026, 0.002210, 0.003608, 0.005317]}')
+print(f'Expected result from Saeed Mavoni (Ex: 1.1): \t{[0.001026, 0.002210, 0.003608, 0.005317]}')
 
 # Plot(structuralDomain)
 

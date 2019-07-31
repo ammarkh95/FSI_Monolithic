@@ -15,13 +15,17 @@ class CoupledDomain:
         self.physics = {'gravity':0}
 
         self.stiffnessMatrix = Matrix(0)
+        self.stiffnessMatrixInverse = Matrix(0)
         self.displacementVector = Vector(0)
         self.loadVector = Vector(0)
 
         self.solver = None
+        self.inverseFlag = True
 
         self.couplingList = []
         self.couplingListRHS = []
+
+        self.dampingList = {}
 
         self.__assembleConstraints__()
 
@@ -88,9 +92,16 @@ class CoupledDomain:
         self.couplingList.append(couplingArray)
         self.couplingListRHS.append(val)
 
-    def __solve__(self):
+    def __solve__(self, LHSConstant = False):
 
-        self.displacementVector = ~self.stiffnessMatrix * self.loadVector
+        if not LHSConstant:
+            self.displacementVector = ~self.stiffnessMatrix * self.loadVector
+        else:
+            if self.inverseFlag:
+                self.stiffnessMatrixInverse = ~self.stiffnessMatrix
+                self.inverseFlag = False
+            
+            self.displacementVector = self.stiffnessMatrixInverse * self.loadVector
 
         # constraintsStartPos =  self.size - len(self.couplingList)
 
@@ -122,3 +133,6 @@ class CoupledDomain:
     def addPhysics(self, **kwargs):
         for key, value in kwargs.items():
             self.physics[key] = value
+
+    def addDamping(self, dampingList):
+        self.dampingList = dampingList

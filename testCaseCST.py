@@ -20,17 +20,17 @@ structuralDomain = Domain(dim='2D')
 ###########                Nodes                 ###########
 #----------------------------------------------------------#
 ''' Structure '''
-structuralDomain.addNode(3, 0)
-structuralDomain.addNode(3, 2)
-structuralDomain.addNode(0, 2)
-structuralDomain.addNode(0, 0)
-
+structuralDomain.addNode(x=3, y=0)
+structuralDomain.addNode(x=3, y=2)
+structuralDomain.addNode(x=0, y=2)
+structuralDomain.addNode(x=0, y=0)
 
 ###########               Elements               ###########
 #----------------------------------------------------------#
 '''
 addElement(Element Type, NodeTuple, Arguments of the element)
 '''
+# CST( nodesTuple, elasticModulus, poissonsRatio, thickness)
 structuralDomain.addElement(CST, (0, 1, 3), 30e6, 0.25, 0.5)
 structuralDomain.addElement(CST, (2, 3, 1), 30e6, 0.25, 0.5)
 
@@ -47,7 +47,7 @@ structuralDomain.addConstraint(6, 0)
 structuralDomain.addConstraint(7, 0)
 
 # Loads
-structuralDomain.addLoads(3, timeLoad)
+structuralDomain.addLoads(3, -1000)
 
 # ###########           Coupled Domain            ###########
 # #----------------------------------------------------------#
